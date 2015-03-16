@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'a1br3+#+r7@gr1+=d8uc*yl4xgon*r34uyzv5fe-fwkc)3^dy4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -99,3 +99,6 @@ try:
 except ImportError:
     pass
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
