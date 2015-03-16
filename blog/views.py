@@ -46,3 +46,15 @@ def post_edit(request, id):
 def post_draft(request):
 	posts=Post.objects.filter(published_date__isnull=True).order_by('-create_date')
 	return render(request, 'blog/post_draft.html', {'posts': posts})
+
+
+def post_publish(request, id):
+	post = Post.objects.get(pk=id)
+	post.publish()
+	return redirect('blog.views.post_detail', id=id)
+
+
+def post_remove(request, id):
+	post = Post.objects.get(pk=id)
+	post.delete()
+	return redirect('blog.views.post_list')

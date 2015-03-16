@@ -3,9 +3,18 @@
 {% block content %}
     <div class="post">
         <div class="date">
-            {{ post.published_date }}
+        	{% if post.published_date %}
+            	{{ post.published_date }}
+            	<a class="btn btn-default" href="{% url 'post_edit' id=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            	<a class="btn btn-default" href="{% url 'post_remove' id=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+            {% else %}
+            	<a class="btn btn-default" href="{% url 'post_edit' id=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            	<a class="btn btn-default" href="{% url 'blog.views.post_publish' id=post.pk %}">发布</a>
+            	<a class="btn btn-default" href="{% url 'post_remove' id=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+            {% endif %}
         </div>
-        <a class="btn btn-default" href="{% url 'post_edit' id=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        
+        
      	<h1><a href="">{{ post.title }}</a></h1>
         <p>{{ post.text|linebreaks }}</p>
     </div>
