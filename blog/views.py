@@ -6,12 +6,14 @@ from django.core.urlresolvers import reverse
 
 # Create your views here.
 def post_list(request):
-	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
 	return render(request, 'blog/post_list.html', {'posts': posts})
+
 
 def post_detail(request, id):
 	post = Post.objects.get(pk=id)
 	return render(request, 'blog/post_detail.html', {'post': post})
+
 
 def post_new(request):
 	if request.method == 'POST':
@@ -24,6 +26,7 @@ def post_new(request):
 	else:
 		form = PostForm()
 	return render(request, 'blog/post_edit.html', {'form': form})
+
 
 def post_edit(request, id):
 	post = Post.objects.get(pk=id)
@@ -38,3 +41,8 @@ def post_edit(request, id):
 	else: 
 		form = PostForm(instance=post)
 	return render(request,'blog/post_edit.html', {'form': form})
+
+
+def post_draft(request):
+	posts=Post.objects.filter(published_date__isnull=True).order_by('-create_date')
+	return render(request, 'blog/post_draft.html', {'posts': posts})
