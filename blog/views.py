@@ -3,6 +3,7 @@ from .models import Post
 from django.utils import timezone
 from .forms import PostForm
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def post_list(request):
@@ -14,7 +15,7 @@ def post_detail(request, id):
 	post = Post.objects.get(pk=id)
 	return render(request, 'blog/post_detail.html', {'post': post})
 
-
+@login_required
 def post_new(request):
 	if request.method == 'POST':
 		form = PostForm(request.POST)
@@ -27,7 +28,7 @@ def post_new(request):
 		form = PostForm()
 	return render(request, 'blog/post_edit.html', {'form': form})
 
-
+@login_required
 def post_edit(request, id):
 	post = Post.objects.get(pk=id)
 
@@ -47,13 +48,13 @@ def post_draft(request):
 	posts=Post.objects.filter(published_date__isnull=True).order_by('-create_date')
 	return render(request, 'blog/post_draft.html', {'posts': posts})
 
-
+@login_required
 def post_publish(request, id):
 	post = Post.objects.get(pk=id)
 	post.publish()
 	return redirect('blog.views.post_detail', id=id)
 
-
+@login_required
 def post_remove(request, id):
 	post = Post.objects.get(pk=id)
 	post.delete()
