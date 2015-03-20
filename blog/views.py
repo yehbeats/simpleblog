@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from django.utils import timezone
 from .forms import PostForm
@@ -30,11 +30,12 @@ def post_new(request):
 
 @login_required
 def post_edit(request, id):
-	post = Post.objects.get(pk=id)
-
+	post = get_object_or_404(Post, pk=id)
+	
 	if request.method == 'POST':
 		form = PostForm(request.POST)
 		if form.is_valid():
+			post.delete()
 			post = form.save(commit=False)
 			post.author = request.user
 			post.save()
