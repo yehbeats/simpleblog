@@ -2,24 +2,33 @@
 
 {% block content %}
     <div class="post">
-        <div class="date">
-        	{% if post.published_date %}
-            	{{ post.published_date }}
-                {% if user.is_authenticated %}
-            	<a class="btn btn-default" href="{% url 'post_edit' id=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-            	<a class="btn btn-default" href="{% url 'post_remove' id=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+        <h2>
+            <div class="date">
+            	{% if post.published_date %}
+                	{{ post.published_date }}&nbsp;&nbsp;&nbsp;&nbsp;
+                    {% if user.is_authenticated %}
+                	<a class="btn btn-default" href="{% url 'post_edit' id=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                	<a class="btn btn-default" href="{% url 'post_remove' id=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                    {% endif %}
+                {% else %}
+                    {{ post.create_date }}&nbsp;&nbsp;&nbsp;&nbsp;
+                    {% if user.is_authenticated %}
+                    <a class="btn btn-default" href="{% url 'post_publish' id=post.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                	<a class="btn btn-default" href="{% url 'post_edit' id=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                	<a class="btn btn-default" href="{% url 'post_remove' id=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                    {% endif %}
                 {% endif %}
-            {% else %}
-                {% if user.is_authenticated %}
-                <a class="btn btn-default" href="{% url 'post_publish' id=post.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-            	<a class="btn btn-default" href="{% url 'post_edit' id=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-            	<a class="btn btn-default" href="{% url 'post_remove' id=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                {% endif %}
-            {% endif %}
-        </div>
+            </div>
         
         
-     	<h1><a href="">{{ post.title }}</a></h1>
-        <p>{{ post.text|linebreaks }}</p>
+     	      <a href="">{{ post.title }}</a>
+        </h2>
+        <div class="content">
+            <p>
+                    {% autoescape off %}
+                        {{ post.text }}
+                    {% endautoescape %}
+            </p>
+        
     </div>
 {% endblock content %}
