@@ -6,13 +6,6 @@
             <h2><span class="date">publish: {{ post.published_date }}</span>
                 <a href="{% url 'blog.views.post_detail' id=post.pk %}">{{ post.title }}</a>
             </h2>
-            <div class="content">
-                <p>
-                    {% autoescape off %}
-                        {{ post.text }}
-                    {% endautoescape %}
-                </p>
-            </div>
         </div>
     {% endfor %}
 {% endblock content %}
