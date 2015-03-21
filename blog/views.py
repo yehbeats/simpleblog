@@ -33,9 +33,9 @@ def post_edit(request, id):
 	post = get_object_or_404(Post, pk=id)
 	
 	if request.method == 'POST':
-		form = PostForm(request.POST)
+		form = PostForm(request.POST, instance=post)
 		if form.is_valid():
-			post.delete()
+			# post.delete()
 			post = form.save(commit=False)
 			post.author = request.user
 			post.save()
